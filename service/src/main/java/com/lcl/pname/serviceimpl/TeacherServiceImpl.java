@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lcl.pname.entity.Teacher;
 import com.lcl.pname.service.TeacherService;
 import org.springframework.stereotype.Service;
-import pname.mapper.TeacherMapper;
+import com.lcl.pname.mapper.TeacherMapper;
 
 /**
  * <p>

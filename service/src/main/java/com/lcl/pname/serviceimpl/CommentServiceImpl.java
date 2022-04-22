@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lcl.pname.entity.Comment;
 import com.lcl.pname.service.CommentService;
 import org.springframework.stereotype.Service;
-import pname.mapper.CommentMapper;
+import com.lcl.pname.mapper.CommentMapper;
 
 /**
  * <p>

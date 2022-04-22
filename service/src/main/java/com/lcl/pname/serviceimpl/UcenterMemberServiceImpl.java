@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lcl.pname.entity.UcenterMember;
 import com.lcl.pname.service.UcenterMemberService;
 import org.springframework.stereotype.Service;
-import pname.mapper.UcenterMemberMapper;
+import com.lcl.pname.mapper.UcenterMemberMapper;
 
 /**
  * <p>

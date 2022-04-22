@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lcl.pname.entity.Video;
 import com.lcl.pname.service.VideoService;
 import org.springframework.stereotype.Service;
-import pname.mapper.VideoMapper;
+import com.lcl.pname.mapper.VideoMapper;
 
 /**
  * <p>

@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/edu?serverTimezone=GMT%2B8&amp&useSSL=false&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    locale: zh_CN
+  mvc:
+    #不抛出默认web服务器处理,自己处理 : 自己处理没有找到处理器异常
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      #不建立资源映射 : 自己处理没有找到处理器异常
+      add-mappings: false

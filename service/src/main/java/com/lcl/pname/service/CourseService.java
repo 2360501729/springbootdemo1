@@ -2,6 +2,7 @@ package com.lcl.pname.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lcl.pname.entity.Course;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>

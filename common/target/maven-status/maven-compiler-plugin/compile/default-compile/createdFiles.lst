@@ -1,4 +1,5 @@
 com\lcl\pname\entity\CourseCollect.class
+com\lcl\pname\entity\BaseEntity.class
 com\lcl\pname\entity\Video.class
 com\lcl\pname\entity\PayLog.class
 com\lcl\pname\entity\Banner.class

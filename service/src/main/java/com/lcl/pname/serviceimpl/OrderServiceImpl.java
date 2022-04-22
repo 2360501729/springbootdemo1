@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lcl.pname.entity.Order;
 import com.lcl.pname.service.OrderService;
 import org.springframework.stereotype.Service;
-import pname.mapper.OrderMapper;
+import com.lcl.pname.mapper.OrderMapper;
 
 /**
  * <p>

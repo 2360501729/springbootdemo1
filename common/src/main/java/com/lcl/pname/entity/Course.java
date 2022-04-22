@@ -1,10 +1,6 @@
 package com.lcl.pname.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.lcl.pname.entity.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -84,6 +80,7 @@ public class Course extends BaseEntity {
      * 乐观锁
      */
     @TableField("version")
+    @Version
     private Long version;
 
     /**

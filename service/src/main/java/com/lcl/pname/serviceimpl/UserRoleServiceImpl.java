@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lcl.pname.entity.UserRole;
 import com.lcl.pname.service.UserRoleService;
 import org.springframework.stereotype.Service;
-import pname.mapper.UserRoleMapper;
+import com.lcl.pname.mapper.UserRoleMapper;
 
 /**
  * <p>
