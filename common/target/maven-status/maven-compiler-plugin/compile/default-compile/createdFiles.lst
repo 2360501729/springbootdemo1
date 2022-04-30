@@ -9,9 +9,11 @@ com\lcl\pname\entity\Order.class
 com\lcl\pname\entity\Teacher.class
 com\lcl\pname\entity\User.class
 com\lcl\pname\entity\StatisticsDaily.class
+com\lcl\pname\beanaddtion\PageVO.class
 com\lcl\pname\entity\Chapter.class
 com\lcl\pname\entity\CourseDescription.class
 com\lcl\pname\entity\RolePermission.class
+com\lcl\pname\appcontext\AppConstant.class
 com\lcl\pname\entity\UcenterMember.class
 com\lcl\pname\entity\Permission.class
 com\lcl\pname\entity\Role.class

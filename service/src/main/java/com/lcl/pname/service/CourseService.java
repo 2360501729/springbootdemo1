@@ -1,6 +1,8 @@
 package com.lcl.pname.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lcl.pname.beanaddtion.PageVO;
 import com.lcl.pname.entity.Course;
 import org.springframework.stereotype.Service;
 
@@ -14,4 +16,5 @@ import org.springframework.stereotype.Service;
  */
 public interface CourseService extends IService<Course> {
 
+    PageVO<Course> selectPage(IPage<Course> iPage, Course search);
 }

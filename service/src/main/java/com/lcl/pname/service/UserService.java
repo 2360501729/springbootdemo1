@@ -1,7 +1,10 @@
 package com.lcl.pname.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lcl.pname.beanaddtion.PageVO;
 import com.lcl.pname.entity.User;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -13,4 +16,9 @@ import com.lcl.pname.entity.User;
  */
 public interface UserService extends IService<User> {
 
+    /**
+     * 获取User分页数据
+     * @return
+     */
+    PageVO<User> pageWhere(Map<String, Object> map);
 }

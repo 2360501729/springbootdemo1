@@ -9,6 +9,8 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
     locale: zh_CN
+    #此处的 序列化的策略 : 对属性值不为 null 的不序列化
+    default-property-inclusion: non_null
   mvc:
     #不抛出默认web服务器处理,自己处理 : 自己处理没有找到处理器异常
     throw-exception-if-no-handler-found: true
@@ -16,3 +18,20 @@ spring:
     resources:
       #不建立资源映射 : 自己处理没有找到处理器异常
       add-mappings: false
+  servlet:
+    multipart:
+      #单体文件最大值
+      max-file-size: 10MB
+      #请求列表中文件总最大值
+      max-request-size: 50MB
+springdoc:
+  swagger-ui:
+    #是否允许生成swagger
+    enabled: true
+    #swagger-ui 访问路径 ，默认http://server:port/context-path/swagger-ui.html
+    path: /swagger-ui.html
+    #启用 CSRF 支持
+    csrf:
+      enabled: true
+    #包扫描路径,默认与 @SpringApplication 扫描的包相同
+    #package-to-scan: com.lcl.pname.controller

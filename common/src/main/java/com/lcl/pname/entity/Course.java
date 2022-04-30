@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.lcl.pname.entity.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -18,6 +21,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("edu_course")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Course extends BaseEntity {
 
     private static final long serialVersionUID = 1L;

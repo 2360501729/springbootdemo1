@@ -24,3 +24,14 @@ spring:
       max-file-size: 10MB
       #请求列表中文件总最大值
       max-request-size: 50MB
+springdoc:
+  swagger-ui:
+    #是否允许生成swagger
+    enabled: true
+    #swagger-ui 访问路径 ，默认http://server:port/context-path/swagger-ui.html
+    path: /swagger-ui.html
+    #启用 CSRF 支持
+    csrf:
+      enabled: true
+    #包扫描路径,默认与 @SpringApplication 扫描的包相同
+    #package-to-scan: com.lcl.pname.controller

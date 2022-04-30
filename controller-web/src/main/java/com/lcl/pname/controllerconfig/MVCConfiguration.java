@@ -1,12 +1,17 @@
 package com.lcl.pname.controllerconfig;
 
-import appcontext.AppConstant;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.lcl.pname.appcontext.AppConstant;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import com.lcl.pname.controllerconfig.Interceptors.AuthorizedInterceptor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
@@ -16,18 +21,16 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Objects;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+
+@Configuration //虽然实现了这个 WebMvcConfigurer 接口,但是还是需要将此类声明为配置类,有时候我配置后就是没声明导致配置没有生效
 public class MVCConfiguration implements WebMvcConfigurer {
 
     /**
@@ -67,14 +70,13 @@ public class MVCConfiguration implements WebMvcConfigurer {
 //        Stream<HttpMessageConverter<?>> httpMessageConverterStream =
                 converters.stream().filter(v -> v instanceof MappingJackson2HttpMessageConverter)
                         .collect(Collectors.toList()).forEach(v->{
-                            /*
-                            //对Date类型日期处理,启动配置文件已经配置了,再写一遍加深印象
                             ObjectMapper objectMapper = new ObjectMapper();
                             //指定时区
                             objectMapper.setTimeZone(TimeZone.getTimeZone(AppConstant.TIME_ZONE));
-                            objectMapper.setDateFormat(new SimpleDateFormat(AppConstant.DEFAULT_DATETIME_PATTERN));
+                            //对Date类型日期处理,启动配置文件已经配置了,再写一遍加深印象
+                            //objectMapper.setDateFormat(new SimpleDateFormat(AppConstant.DEFAULT_DATETIME_PATTERN));
                             //序列化策略:对不为 null 的进行序列化
-                            objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);*/
+                            //objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
                     //新日期处理
                             JavaTimeModule javaTimeModule = new JavaTimeModule();
@@ -84,6 +86,20 @@ public class MVCConfiguration implements WebMvcConfigurer {
                                     (DateTimeFormatter.ofPattern(AppConstant.DEFAULT_DATE_FORMAT)));
                             javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer
                                     (DateTimeFormatter.ofPattern(AppConstant.DEFAULT_TIME_FORMAT)));
+                            javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer
+                                    (DateTimeFormatter.ofPattern(AppConstant.DEFAULT_DATETIME_PATTERN)));
+                            javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer
+                                    (DateTimeFormatter.ofPattern(AppConstant.DEFAULT_DATE_FORMAT)));
+                            javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer
+                                    (DateTimeFormatter.ofPattern(AppConstant.DEFAULT_TIME_FORMAT)));
+
+                            /*因为Long 类型的值超出了 JavaScript 的 number 值范围了,精度损失,所以将Long类型值
+                             * 转成了String类型
+                             * */
+                            javaTimeModule.addSerializer(Long.class, ToStringSerializer.instance);
+                            objectMapper.registerModule(javaTimeModule);
+
+                            ((MappingJackson2HttpMessageConverter)v).setObjectMapper(objectMapper);
                         });
     }
 
@@ -93,6 +109,11 @@ public class MVCConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new AuthorizedInterceptor())
+                /*拦截所有*/
+//                .addPathPatterns("/**")
+                /*但是排除一下路径*/
+//                .excludePathPatterns("/swagger-ui/**","/v3/**","/**/*.html","/**/*.js");
     }
 
     /**
@@ -101,5 +122,11 @@ public class MVCConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:8080/")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                /*允许请求携带 cookie*/
+                .allowCredentials(true);
     }
 }

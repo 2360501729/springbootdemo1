@@ -15,7 +15,8 @@ public class AuthorizedInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("AuthorizedInterceptor.preHandle");
-        return HandlerInterceptor.super.preHandle(request, response, handler);
+//        return HandlerInterceptor.super.preHandle(request, response, handler);
+        return false;
     }
 
     @Override
