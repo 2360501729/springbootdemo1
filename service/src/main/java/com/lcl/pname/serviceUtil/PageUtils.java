@@ -20,7 +20,7 @@ public class PageUtils {
      * */
     public static <T> IPage<T> getPageI(Map<String, Object> map) {
         Long currentPage = Long.valueOf(map.remove("currentPage").toString()) ;
-        Long pageSize = (Long) map.remove("pageSize");
+        Long pageSize = Long.valueOf(map.remove("pageSize").toString()) ;
         if (map.size() == 0 || ObjectUtils.isNull(currentPage) || ObjectUtils.isNull(pageSize)) {
             currentPage = AppConstant.CURRENT_PAGE;
             pageSize = AppConstant.PAGE_SIZE;

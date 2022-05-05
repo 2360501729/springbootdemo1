@@ -18,10 +18,10 @@ public class PageVO<T> {
 	// 每页条数
     private Integer pageSize;
 	// 总条数
-    private Long total;
+    private Integer total;
 	// 当前页面
     private Integer currentPage;
     private boolean isFirstPage;  // 是否为第一页
     private boolean isLastPage;   // 是否为最后一页
-    private Long pageTotal;//总页数
+    private Integer pages;//总页数
 }

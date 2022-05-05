@@ -12,6 +12,7 @@ import com.lcl.pname.service.TeacherService;
 import com.lcl.pname.serviceUtil.PageUtils;
 import org.springframework.stereotype.Service;
 import com.lcl.pname.mapper.TeacherMapper;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -50,7 +51,7 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
                         "gmt_create",
                         "gmt_modified");*/
             Object o = map.remove(Teacher.T_NAME);
-            if (o != null) {
+            if (null != o) {
                 wrapper.likeRight(Teacher.T_NAME,o);
             }
             wrapper
@@ -70,9 +71,9 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
         return new PageVO<Teacher>()
                 .setPageSize(Math.toIntExact(page.getSize()))
                 .setCurrentPage(Math.toIntExact(page.getCurrent()))
-                .setTotal(page.getPages())
+                .setTotal(Math.toIntExact(page.getTotal()))
                 .setDataList(page.getRecords())
-                .setPageTotal(page.getPages());
+                .setPages(Math.toIntExact(page.getPages()));
     }
 
     public void test4(){

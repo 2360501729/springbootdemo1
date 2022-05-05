@@ -48,8 +48,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return new PageVO<User>()
                 .setCurrentPage(Math.toIntExact(pageI.getCurrent()))
                 .setPageSize(Math.toIntExact(pageI.getSize()))
-                .setTotal(pageI.getTotal())
-                .setPageTotal(pageI.getPages())
+                .setTotal(Math.toIntExact(pageI.getTotal()))
+                .setPages(Math.toIntExact(pageI.getPages()))
                 .setDataList(pageI.getRecords());
     }
 }

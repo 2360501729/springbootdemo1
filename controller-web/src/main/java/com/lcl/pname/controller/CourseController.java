@@ -45,7 +45,7 @@ public class CourseController {
         IPage<Course> page = courseService.page(iPage, new QueryWrapper<>(search));
         return R.ok(
                 new PageVO<Course>().setCurrentPage(Math.toIntExact(iPage.getCurrent()))
-                        .setPageSize(Math.toIntExact(iPage.getSize())).setTotal(page.getTotal())
+                        .setPageSize(Math.toIntExact(iPage.getSize())).setTotal(Math.toIntExact(page.getTotal()))
                         .setDataList(iPage.getRecords())
         );
     }

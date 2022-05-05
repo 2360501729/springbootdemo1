@@ -35,3 +35,8 @@ springdoc:
       enabled: true
     #包扫描路径,默认与 @SpringApplication 扫描的包相同
     #package-to-scan: com.lcl.pname.controller
+project:
+  global:
+    conf:
+      #文件服务器地址
+      fileServerUrl: D:/lcl-temp/temp

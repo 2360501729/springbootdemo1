@@ -9,7 +9,7 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
     locale: zh_CN
-    #此处的 序列化的策略 : 对属性值不为 null 的不序列化
+    #此处的 序列化的策略 : 对属性值为 null 的不进行序列化
     default-property-inclusion: non_null
   mvc:
     #不抛出默认web服务器处理,自己处理 : 自己处理没有找到处理器异常
@@ -24,6 +24,11 @@ spring:
       max-file-size: 10MB
       #请求列表中文件总最大值
       max-request-size: 50MB
+  redis:
+    database: 0 #选择数据库索引,默认是 0
+    host: 192.168.1.4 #Redis 服务器地址
+    port: 6379 #Redis 使用的端口号
+    password: 123456 #Redis 连接密码 ,默认为空
 springdoc:
   swagger-ui:
     #是否允许生成swagger
@@ -35,3 +40,8 @@ springdoc:
       enabled: true
     #包扫描路径,默认与 @SpringApplication 扫描的包相同
     #package-to-scan: com.lcl.pname.controller
+project:
+  global:
+    conf:
+      #文件服务器地址
+      fileServerUrl: D:/lcl-temp/temp

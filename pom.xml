@@ -30,6 +30,7 @@
         <springdoc-openapi-ui.version>1.6.6</springdoc-openapi-ui.version>
     </properties>
     <dependencies>
+
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
@@ -77,6 +78,11 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid-spring-boot-starter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
             </dependency>
 
         </dependencies>

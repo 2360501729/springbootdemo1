@@ -34,7 +34,8 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
             return pageVO.setCurrentPage(Math.toIntExact(iPage.getCurrent()))
                     .setPageSize(Math.toIntExact(iPage.getSize()))
                     .setDataList(iPage.getRecords())
-                    .setTotal(iPage.getTotal());
+                    .setTotal(Math.toIntExact(iPage.getTotal()))
+                    ;
         }
         QueryWrapper<Course> queryWrapper = new QueryWrapper<Course>()
                 .likeRight("title", search.getTitle())
@@ -43,6 +44,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         return pageVO.setCurrentPage(Math.toIntExact(iPage.getCurrent()))
                 .setPageSize(Math.toIntExact(iPage.getSize()))
                 .setDataList(iPage.getRecords())
-                .setTotal(iPage.getTotal());
+                .setTotal(Math.toIntExact(iPage.getTotal()))
+                ;
     }
 }
