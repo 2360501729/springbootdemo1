@@ -35,7 +35,8 @@ spring:
 #    active: company,product
 #    active: home,product
 #    active: product
-    active: company
+#    active: company
+    active: home
 springdoc:
   swagger-ui:
     #是否允许生成swagger

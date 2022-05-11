@@ -22,7 +22,7 @@ public class AuthorizedInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("AuthorizedInterceptor.preHandle");
 //        return HandlerInterceptor.super.preHandle(request, response, handler);
-        HttpSession session = request.getSession();
+        /*HttpSession session = request.getSession();
         Object user = session.getAttribute(ProjectAutoConfiguration.sessionUserKey);
         if (user == null) {
             //说明没有用户存在,将进行拦截
@@ -35,7 +35,7 @@ public class AuthorizedInterceptor implements HandlerInterceptor {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.getWriter().write(jsonStatus);
             return false;
-        }
+        }*/
         return true;
     }
 
