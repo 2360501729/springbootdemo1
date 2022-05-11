@@ -80,5 +80,16 @@ public class Teacher extends BaseEntity {
     @Schema(description = "逻辑删除,1 已删除, 0 未删除")
     private Boolean deleted;
 
-
+    @Override
+    public String toString() {
+        return "Teacher{"+ super.toString() +
+                "name='" + name + '\'' +
+                ", intro='" + intro + '\'' +
+                ", career='" + career + '\'' +
+                ", level=" + level +
+                ", avatar='" + avatar + '\'' +
+                ", sort=" + sort +
+                ", deleted=" + deleted +
+                '}';
+    }
 }

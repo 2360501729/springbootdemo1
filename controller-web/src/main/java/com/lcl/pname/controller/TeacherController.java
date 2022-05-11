@@ -32,9 +32,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * <p>
  * 讲师 前端控制器
- * </p>
  *
  * @author lcl
  * @since 2022-04-21
@@ -55,7 +53,7 @@ public class TeacherController {
      * @throws Exception
      */
     //summary 是摘要信息,
-    @Operation(summary = "处理文件上传接口",description = "对上传的文件保存指定路径(服务器)",
+    @Operation(summary = "处理文件上传接口",description = "对上传的文件保存指定路径等操作(服务器)",
     parameters = {
             @Parameter(
                     name = "file",description = "前端传输的每个文件的名字",in = ParameterIn.PATH,

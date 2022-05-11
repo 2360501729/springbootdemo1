@@ -1,3 +1,5 @@
+server:
+  port: 7878
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -24,11 +26,16 @@ spring:
       max-file-size: 10MB
       #请求列表中文件总最大值
       max-request-size: 50MB
-  redis:
-    database: 0 #选择数据库索引,默认是 0
-    host: 192.168.1.4 #Redis 服务器地址
-    port: 6379 #Redis 使用的端口号
-    password: 123456 #Redis 连接密码 ,默认为空
+#  redis:
+#    database: 0 #选择数据库索引,默认是 0
+#    host: 192.168.1.4 #Redis 服务器地址
+#    port: 6379 #Redis 使用的端口号
+#    password: 123456 #Redis 连接密码 ,默认为空
+  profiles:
+#    active: company,product
+#    active: home,product
+#    active: product
+    active: company
 springdoc:
   swagger-ui:
     #是否允许生成swagger
@@ -45,3 +52,6 @@ project:
     conf:
       #文件服务器地址
       fileServerUrl: D:/lcl-temp/temp
+      sessionUserKey: user
+      userName: userName
+      password: password

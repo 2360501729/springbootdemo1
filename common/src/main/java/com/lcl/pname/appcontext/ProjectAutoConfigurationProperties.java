@@ -12,4 +12,10 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class ProjectAutoConfigurationProperties {
     private String fileServerUrl;
+
+    private String sessionUserKey;
+
+    private String userName;
+
+    private String password;
 }

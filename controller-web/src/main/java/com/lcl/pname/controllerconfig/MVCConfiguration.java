@@ -11,12 +11,18 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.lcl.pname.controllerconfig.Interceptors.AuthorizedInterceptor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -63,7 +69,6 @@ public class MVCConfiguration implements WebMvcConfigurer {
      * Json请求中的日期格式化配置:
      * 启动文件中配置的只对Date类型有效,JacksonAutoConfiguration类中configureDateFormat()有配置过程
      * 这里新增 新日期API配置
-     * @param converters
      */
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -109,25 +114,53 @@ public class MVCConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new AuthorizedInterceptor())
+        registry.addInterceptor(new AuthorizedInterceptor())
                 /*拦截所有*/
-//                .addPathPatterns("/**")
+                .addPathPatterns("/**")
                 /*但是排除一下路径*/
-//                .excludePathPatterns("/swagger-ui/**","/v3/**","/**/*.html","/**/*.js");
+                .excludePathPatterns("/swagger-ui/**","/v3/**","/user/captcha","/user/login");
     }
 
     /**
-     * 配置跨域策略
+     * 配置跨域策略,这种跨域配置是在前置拦截器拦截后才进行处理,导致前置拦截器不会向响应体添加跨域预检通过的响应报文.所以在当前类中
+     * 配置一个跨域过滤器 bean : corsFilter().
      * @param registry
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+/*
         registry.addMapping("/**")
 //                .allowedOrigins("http://localhost:8080/")
                 .allowedOrigins("http://localhost:3000/")
                 .allowedMethods("*")
                 .allowedHeaders("*")
-                /*允许请求携带 cookie*/
+                */
+/*允许请求携带 cookie*//*
+
                 .allowCredentials(true);
+*/
     }
+
+    /**
+     * 注册跨域过滤器,且先于拦截器进行处理
+     * @return 向过滤器中自定义注册一些过滤器 的总Bean,这里向这个总Bean中添加了自定义的跨域处理过滤器
+     */
+//    @Bean
+//    public FilterRegistrationBean<CorsFilter> corsFilter() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        /*跨域配置*/
+//        CorsConfiguration corsConfiguration = new CorsConfiguration();
+//        corsConfiguration.addAllowedOrigin("http://192.168.1.4:8893");
+//        corsConfiguration.addAllowedOrigin("http://192.168.6.71:8893");
+//        corsConfiguration.addAllowedOrigin("http://localhost:8893");
+//        corsConfiguration.addAllowedHeader("*");
+//        corsConfiguration.addAllowedMethod("*");
+//        corsConfiguration.setAllowCredentials(true);//允许携带 cookie
+//        /*跨域拦截配置,并添加刚刚配置的跨域配置*/
+//        source.registerCorsConfiguration("/**",corsConfiguration);
+//        /*注册跨域过滤器*/
+//        FilterRegistrationBean<CorsFilter> filterRegistrationBean =
+//                new FilterRegistrationBean<>(new CorsFilter(source));
+//        return filterRegistrationBean;
+//    }
 }

@@ -1,6 +1,7 @@
 com\lcl\pname\serviceimpl\UcenterMemberServiceImpl.class
 com\lcl\pname\service\CommentService.class
 com\lcl\pname\serviceimpl\StatisticsDailyServiceImpl.class
+com\lcl\pname\serviceUtil\PageUtils.class
 com\lcl\pname\serviceimpl\CommentServiceImpl.class
 com\lcl\pname\service\BannerService.class
 com\lcl\pname\service\CourseCollectService.class

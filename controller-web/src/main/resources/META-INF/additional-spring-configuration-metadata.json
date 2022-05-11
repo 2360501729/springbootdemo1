@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "project.global.conf.fileServerUrl",
+      "type": "java.lang.String",
+      "description": "Description for project.global.conf.fileServerUrl."
+    },
+    {
+      "name": "project.global.conf.sessionUserKey",
+      "type": "java.lang.String",
+      "description": "Description for project.global.conf.sessionUserKey."
+    },
+    {
+      "name": "project.global.conf.userName",
+      "type": "java.lang.String",
+      "description": "Description for project.global.conf.userName."
+    },
+    {
+      "name": "project.global.conf.password",
+      "type": "java.lang.String",
+      "description": "Description for project.global.conf.password."
+    }
+  ] }
