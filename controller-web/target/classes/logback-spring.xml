@@ -1,0 +1,62 @@
+<!--debug 属性只跟状态信息有关，并不会影响 logback 的配置文件，也不会影响 logger 的日志级别 -->
+<!--scan 能够在配置文件改变的时候自动去扫描-->
+<!--scanPeriod 属性可以指定扫描周期。扫描周期的时间单位可以是毫秒、秒、分钟或者小时。默认为毫秒 -->
+<configuration debug="false" scan="true" scanPeriod="30 seconds" >
+    <!--设置日志保存位置-->
+    <property name="log-home" value="D:/logs" />
+
+    <!--控制台日志格式：彩色日志-->
+    <!-- magenta:洋红 -->
+    <!-- boldMagenta:粗红-->
+    <!-- cyan:青色 -->
+    <!-- white:白色 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%yellow(%d{HH:mm:ss}) %thread %highlight(%-5level) %file:%line %logger{36} - %cyan(%msg%n)"/>
+    <!--编码-->
+    <property name="ENCODING" value="utf-8" />
+
+    <!--配置控制台输出日志的相关设置-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--日志输出格式-->
+            <!--<pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>${ENCODING}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<file>${log-home}/logFile.log</file>-->
+        <!--文件轮转策略-->
+        <!--基于大小以及时间的轮转策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 按天轮转 -->
+            <!--%i 日志文件达到了 maxFileSize 指定的大小，会进行归档，递增索引从 0 开始-->
+            <fileNamePattern>${log-home}/logFile.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!--按周轮转-->
+            <!--logFile.%d{yyyy-ww}.log-->
+            <!--按月-->
+            <!--logFile.%d{yyyy/MM}.log-->
+            <!-- 保存 30 天的历史记录，这里的单位是根据轮转策略动态调整的，如果轮转是周，那么这里就是 30周 -->
+            <maxHistory>30</maxHistory>
+            <!--每个文件最大100MB-->
+            <maxFileSize>100MB</maxFileSize>
+            <!--这个可选属性用来控制所有归档文件总的大小。当达到这个大小后，旧的归档文件将会被异步的删除-->
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--设置指定的包名下的日志等级-->
+    <logger name="org.springframework" level="INFO" />
+    <logger name="org.mybatis" level="INFO" />
+    <logger name="org.thymeleaf" level="INFO" />
+
+    <root level="debug">
+        <appender-ref ref="console" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>

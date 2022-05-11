@@ -1,0 +1,12 @@
+spring:
+  redis:
+    database: 0 #选择数据库索引,默认是 0
+    host: 192.168.1.4 #Redis 服务器地址
+    port: 6379 #Redis 使用的端口号
+    password: 123456 #Redis 连接密码 ,默认为空
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.1.4:8890/edu?serverTimezone=GMT%2B8&amp&useSSL=false&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
