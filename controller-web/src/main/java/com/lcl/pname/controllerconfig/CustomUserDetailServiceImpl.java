@@ -7,6 +7,7 @@ import com.lcl.pname.entity.UserRole;
 import com.lcl.pname.service.RoleService;
 import com.lcl.pname.service.UserRoleService;
 import com.lcl.pname.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,6 +27,7 @@ import java.util.List;
  * 从数据库读取用户信息进行身份验证,需要新建类实现 UserDetailsService 中的方法
  */
 @Component //声明为组件
+@Slf4j
 public class CustomUserDetailServiceImpl implements UserDetailsService {
 
     /**
@@ -44,11 +46,12 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.getOne(new QueryWrapper<User>().eq("username", username));
         if (user == null) {
-            System.out.println("用户名没有找到");
+            throw new UsernameNotFoundException("用户:" + username + "=>不存在");
         }
-        assert user != null;
         UserRole userRole = userRoleService.getOne(new QueryWrapper<UserRole>().eq("user_id", user.getId()));
+        log.info("userRole 对象" + userRole);
         Role role = roleService.getOne(new QueryWrapper<Role>().eq("id", userRole.getRoleId()));
+        log.info("role 对象 => " + role);
         /*角色集合*/
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         /*存入角色*/
