@@ -29,6 +29,7 @@
         <druid-spring-boot-starter.version>1.2.8</druid-spring-boot-starter.version>
         <springdoc-openapi-ui.version>1.6.6</springdoc-openapi-ui.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
+        <jjwt.version>0.9.1</jjwt.version>
     </properties>
     <dependencies>
 
@@ -54,6 +55,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
 

@@ -18,4 +18,6 @@ public class ProjectAutoConfigurationProperties {
     private String userName;
 
     private String password;
+
+    private String captchaKey;
 }

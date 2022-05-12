@@ -56,3 +56,8 @@ project:
       sessionUserKey: user
       userName: userName
       password: password
+      captchaKey: captcha
+  jwt:
+    header: Authorization
+    expire: 604800 #保留七天
+    secret: qwertyuiopasdfghjklzxcvbnmasdfgh #32位

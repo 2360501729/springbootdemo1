@@ -33,6 +33,10 @@ public class ProjectAutoConfiguration {
      * 自定义的用户密码字符串,效果同 上面这个 userName 属性.
      */
     public static String password;
+    /**
+     * 自定义的 redis 存储 key, 获取用户登录时的验证码字符串
+     */
+    public static String captchaKey;
 
     /**
      * 拿到配置的文件上传的服务器地址,测试用用配置文件方式来加载自定义配置.
@@ -43,6 +47,7 @@ public class ProjectAutoConfiguration {
         sessionUserKey = projectAutoConfigurationProperties.getSessionUserKey();
         userName = projectAutoConfigurationProperties.getUserName();
         password = projectAutoConfigurationProperties.getPassword();
+        captchaKey = projectAutoConfigurationProperties.getCaptchaKey();
         return "属性值注入";
     }
 }
