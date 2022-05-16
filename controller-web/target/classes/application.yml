@@ -41,9 +41,9 @@ springdoc:
   swagger-ui:
     #是否允许生成swagger
     enabled: true
-    #swagger-ui 访问路径 ，默认http://server:port/context-path/swagger-ui.html
+    #swagger-ui 访问路径 http://localhost:7878/swagger-ui/index.html，默认http://server:port/context-path/swagger-ui.html
     path: /swagger-ui.html
-    #启用 CSRF 支持
+    #启用 CSRF 支持 ,跨站请求伪造
     csrf:
       enabled: true
     #包扫描路径,默认与 @SpringApplication 扫描的包相同
@@ -56,3 +56,10 @@ project:
       sessionUserKey: user
       userName: userName
       password: password
+      captchaKey: captcha #自定义的 redis 存储验证码的 hash 表 key.
+      checkCodeKey: Check-Code-Key #获取请求域中验证码 的 input key
+      tokensKey: checkNum #获取请求头中生成的随机验证码的 redis key
+  jwt:
+    header: Authorization
+    expire: 604800 #保留七天
+    secret: qwertyuiopasdfghjklzxcvbnmasdfgh #32位,加解密使用的密匙

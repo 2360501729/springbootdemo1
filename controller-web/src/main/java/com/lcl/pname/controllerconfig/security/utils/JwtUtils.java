@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -32,18 +31,22 @@ public class JwtUtils {
 
     /**
      * 生成 jwt
-     *
-     * @param username
-     * @return
      */
     public String generateToken(String username) {
         Date nowDate = new Date();
         Date expireDate = new Date(nowDate.getTime() * expire);
+        /*jwt 建造链*/
         return Jwts.builder()
+                /*生成唯一ID,可以去掉 UUID 分隔符 放进去*/
+                //.setId(UUID.randomUUID().toString())
                 .setHeaderParam("type", "JWT")
+                /*设置为哪个用户签发*/
                 .setSubject(username)
+                /*设置签发日期*/
                 .setIssuedAt(nowDate)
+                /*设置签发过期日期*/
                 .setExpiration(expireDate)
+                /* 设置签名方法,参数: 签名算法 盐 ,      secret 值长度过短,会被默认为 密匙为空 */
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact()
                 ;
@@ -65,6 +68,7 @@ public class JwtUtils {
 
     /**
      * jwt 是否过期
+     * 扩展 : ExpiredJwtException : token过期会有 ExpiredJwtException 异常
      */
     public boolean isTokenExpired(Claims claims) {
         //如果过期时间在当前时间之前,就代表过期

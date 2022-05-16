@@ -1,25 +1,24 @@
 package com.lcl.pname.controllerconfig.security;
 
-import com.lcl.pname.controllerconfig.security.CustomUserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @author lcl
+ * 该类为 security 总配置类
  */
 @EnableWebSecurity //开启 Security
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true) 在启动类注解了,但是springboot项目可以不用加这个注解,听说是
+// springboot 自动开启这个注解
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -53,8 +52,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * URL 白名单设置,访问时不需要拦截
      */
     private static final String[] URL_WHITELIST = {
-            "/login",
+            /*这个是我的登录 api 接口*/
+            "/user/login",
             "/logout",
+            "/user/captcha",
             "/captcha",
             "/favicon.ico"
     };
@@ -69,11 +70,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http
+                /*允许跨域*/
+                .cors()
+
+                /*关闭 session*/
+                .and()
+                .csrf()
+                .disable()
+
                 //登录配置
                 .formLogin()
-                .successHandler(loginSuccessHandler)//登录成功处理器
-                .failureHandler(loginFailureHandler)//登录失败处理器
+                /*登录自定义接口路径,默认是 /login */
+                .loginProcessingUrl("/user/login")
+                /*登录成功处理器*/
+                .successHandler(loginSuccessHandler)
+                /*登录失败处理器*/
+                .failureHandler(loginFailureHandler)
 
                 //退出
                 .and()
@@ -88,16 +101,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //配置拦截规则
                 .and()
                 .authorizeRequests()
-                .antMatchers(URL_WHITELIST).permitAll()//所有人都可以访问
-                .anyRequest().authenticated()//需要登录,表示需要认证
+                /*所有人都可以访问白名单地址
+                permitAll : 会适配一个 AnonymousAuthenticationToken(匿名身份令牌) 设置到
+                SecurityContextHolder,以便后面 filter 可以统一处理 authentication.
+                ignore : 和 permitAll 一样也是放行,只不过他是完全绕过 所有 filter.*/
+                .antMatchers(URL_WHITELIST).permitAll()
+                /*这里是允许所有 Post 请求到 /xxx/xxx 地址,不需要认证*/
+                //.antMatchers(HttpMethod.POST,"xxx/xxx","xxx/xxx").permitAll()
+                /*需要登录,表示需要认证*/
+                .anyRequest().authenticated()
 
                 //异常处理器
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)//没有认证异常
-                .accessDeniedHandler(jwtAccessDeniedHandler)//没有权限
+                /*没有认证异常*/
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                /*没有权限*/
+                .accessDeniedHandler(jwtAccessDeniedHandler)
 
-                //配置自定义过滤器,前置过滤器
+                //配置自定义过滤器,前置过滤器,类似 addFilterxx(a,b)的方法 会在 b 之前执行 a
                 .and()
                 .addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAt(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

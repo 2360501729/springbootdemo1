@@ -5,8 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 配置临时项目启动场景:获取此项目的属性配置
  * @author hello  Word
+ * 配置临时项目启动场景:获取此项目的属性配置,还可以对 静态属性 设置: set+属性 = set方法 并且要在方法上
+ * 加 @Value("${xx.xx.xx}")表达式的方式,这样子的话每条属性的 set 方法的@Value注解参数都要加上完整 key => (${xx.xx}).
  */
 @Configuration //声明该类为配置类.
 @EnableConfigurationProperties(ProjectAutoConfigurationProperties.class)//开启加载指定属性配置类,可以不加这个注解,
@@ -34,12 +35,21 @@ public class ProjectAutoConfiguration {
      */
     public static String password;
     /**
-     * 自定义的 redis 存储 key, 获取用户登录时的验证码字符串
+     * 自定义的 redis 存储验证码的 hash 表 key.
      */
     public static String captchaKey;
 
+    /**--------------------------------------------------------------------
+     * 获取 请求域 中验证码 的 input key
+     */
+    public static String CHECK_CODE_KEY;
     /**
-     * 拿到配置的文件上传的服务器地址,测试用用配置文件方式来加载自定义配置.
+     * 获取 请求头 中生成的随机验证码的 redis key
+     */
+    public static String TOKENS_KEY;
+
+    /**---------------------------------------------------------------------
+     * 拿到配置的文件上传的服务器地址,测试用配置文件方式来加载自定义配置.
      */
     @Bean
     private static String fileServerUrl(ProjectAutoConfigurationProperties projectAutoConfigurationProperties) {
@@ -48,6 +58,8 @@ public class ProjectAutoConfiguration {
         userName = projectAutoConfigurationProperties.getUserName();
         password = projectAutoConfigurationProperties.getPassword();
         captchaKey = projectAutoConfigurationProperties.getCaptchaKey();
+        CHECK_CODE_KEY = projectAutoConfigurationProperties.getCheckCodeKey();
+        TOKENS_KEY = projectAutoConfigurationProperties.getTokensKey();
         return "属性值注入";
     }
 }

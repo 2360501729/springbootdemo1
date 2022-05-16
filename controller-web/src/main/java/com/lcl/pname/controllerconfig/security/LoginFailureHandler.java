@@ -1,6 +1,7 @@
 package com.lcl.pname.controllerconfig.security;
 
 import cn.hutool.json.JSONUtil;
+import com.lcl.pname.controller.UserController;
 import com.lcl.pname.responsestatus.R;
 import com.lcl.pname.responsestatus.ResultCode;
 import org.springframework.security.core.AuthenticationException;
@@ -31,7 +32,14 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
         outputStream.write(JSONUtil.toJsonStr(result).getBytes(StandardCharsets.UTF_8));
 
-        outputStream.flush();
-        outputStream.close();
+        UserController userController = new UserController();
+        try {
+            userController.captcha(request,response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+//        outputStream.flush();
+//        outputStream.close();
     }
 }

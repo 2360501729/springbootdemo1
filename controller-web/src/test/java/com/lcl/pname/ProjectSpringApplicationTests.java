@@ -14,6 +14,8 @@ public class ProjectSpringApplicationTests {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
+    /*这个才使用了自己定义的序列化功能*/
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -38,5 +40,14 @@ public class ProjectSpringApplicationTests {
         ListOperations<String, String> stringStringListOperations = stringRedisTemplate.opsForList();
         stringStringListOperations.leftPush("listKey", "listValue1");
         System.out.println("=>" + teacherList);*/
+    }
+
+    @Test
+    public void test1() {
+//        redisTemplate.opsForHash().put("captcha","da4d15fc-a87f-1526-5fc3-bd61552291cc",7);
+//        Object captcha = redisTemplate.opsForHash().get("captcha", "da4d15fc-a87f-1526-5fc3-bd61552291cc");
+//        System.out.println(captcha);
+
+        stringRedisTemplate.opsForHash().put("captcha","da4d15fc-a87f-1526-5fc3-bd61552291cc","7");
     }
 }

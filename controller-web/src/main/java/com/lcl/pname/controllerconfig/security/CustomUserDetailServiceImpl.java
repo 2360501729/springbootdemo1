@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * @author lcl
- * 对用户身份进行认证,搭配WebSecurityConfig类的使用
+ * 对用户身份进行认证,搭配 WebSecurityConfig 类的使用
  * 从数据库读取用户信息进行身份验证,需要新建类实现 UserDetailsService 中的方法
  */
 @Component //声明为组件
@@ -44,6 +44,7 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        log.info("开启登录验证,用户名为{}",username);
         User user = userService.getOne(new QueryWrapper<User>().eq("username", username));
         if (user == null) {
             throw new UsernameNotFoundException("用户:" + username + "=>不存在");
@@ -61,16 +62,17 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
                 user.getUsername(),
                 /*给数据库密码加密*/
                 passwordEncoder.encode(user.getPassword()),
-//                grantedAuthorities
+                //grantedAuthorities
+                /*根据 用户id 获取权限列表*/
                 getUserAuthority(user.getId())
         );
     }
 
     /**
-     * 获取用户权限信息 (菜单,菜单权限)
+     * 根据 用户Id 获取用户权限信息 (菜单,菜单权限)
      *
-     * @param userId
-     * @return 权限判定方式都会装进该集合
+     * @param userId 用户 Id
+     * @return 权限列表,返回的列表中包含当前用户角色,我把角色拼接了 "ROLE_"前缀.
      */
     public List<GrantedAuthority> getUserAuthority(Long userId) {
         //返回拥有角色和权限,逗号分割,原本是 带sys开头的service,但是我的就是userService
@@ -78,7 +80,7 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         /*获取角色 ID*/
         UserRole userRole = userRoleService.getOne(new QueryWrapper<UserRole>().eq("user_id", userId));
-        log.info("userRole 对象 =>" + userRole);
+        log.info("userRole 对象 => " + userRole);
         /*获取角色*/
         Role role = roleService.getById(userRole.getRoleId());
         log.info("role 对象 => " + role);

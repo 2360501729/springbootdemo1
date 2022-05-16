@@ -4,9 +4,12 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -23,6 +26,8 @@ public class BaseEntity implements Serializable {
 
     // 标记为在新增记录时填充字段
     @TableField(fill = FieldFill.INSERT)
+//    @DateTimeFormat 标准协议 中 Date(旧) 日期类型格式化
+//    @JsonFormat json 中 新&&旧 日期类型的格式化
     private LocalDateTime gmtCreate;
 
     // 标记为在修改数据时填充字段

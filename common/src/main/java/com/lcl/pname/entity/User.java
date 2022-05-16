@@ -9,6 +9,10 @@ import com.lcl.pname.entity.BaseEntity;
 import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -20,6 +24,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 @TableName("acl_user")
 public class User extends BaseEntity {
 
@@ -30,6 +35,7 @@ public class User extends BaseEntity {
     /**
      * openid
      */
+    @NotNull //可以在 controller 处理接口中为 类型为该类的参数前使用@Avalied开启校验.
     @TableField("username")
     private String username;
 

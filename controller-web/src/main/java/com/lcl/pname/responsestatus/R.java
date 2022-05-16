@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author xlz
  * @date 2022/2/26 9:24
  * 返回值类型的固定成员：
- *    Integer  code   记录当前的状态码     0代表成功    1代表错误    2....
+ *    Integer  checkCodekey   记录当前的状态码     0代表成功    1代表错误    2....
  *    String  message  要返回的简单的字符串信息
  *    Object  data   其他的复杂数据类型
  */
@@ -78,7 +78,7 @@ public class R<T> implements Serializable {
     }
 
     //public Integer getCode() {
-    //    return code;
+    //    return checkCodekey;
     //}
     //
     //
@@ -92,8 +92,8 @@ public class R<T> implements Serializable {
     //}
     //
     //
-    //public R<T> setCode(Integer code) {
-    //    this.code = code;
+    //public R<T> setCode(Integer checkCodekey) {
+    //    this.checkCodekey = checkCodekey;
     //    return this;
     //}
     //

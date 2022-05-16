@@ -20,4 +20,8 @@ public class ProjectAutoConfigurationProperties {
     private String password;
 
     private String captchaKey;
+
+    private String checkCodeKey;
+
+    private String tokensKey;
 }

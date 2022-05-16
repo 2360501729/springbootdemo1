@@ -45,6 +45,7 @@ public class MVCConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addFormatters(FormatterRegistry registry) {
+        /*标准协议请求中,Date 日期类型格式化*/
         final DateFormatter dateFormat = new DateFormatter();
         dateFormat.setFallbackPatterns(
                 AppConstant.DEFAULT_DATE_FORMAT,
@@ -56,7 +57,7 @@ public class MVCConfiguration implements WebMvcConfigurer {
 
         registry.addFormatter(dateFormat);
 
-        /*配置新日期格式化*/
+        /*标准协议请求中,新日期格式化*/
         final DateTimeFormatterRegistrar dateTimeFormatterRegistrar =
                 new DateTimeFormatterRegistrar();
         dateTimeFormatterRegistrar.setDateFormatter(DateTimeFormatter.ofPattern(AppConstant.DEFAULT_DATE_FORMAT));
@@ -83,7 +84,7 @@ public class MVCConfiguration implements WebMvcConfigurer {
                             //序列化策略:对不为 null 的进行序列化
                             //objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-                    //新日期处理
+                    //Json格式中,新日期处理
                             JavaTimeModule javaTimeModule = new JavaTimeModule();
                             javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer
                                     (DateTimeFormatter.ofPattern(AppConstant.DEFAULT_DATETIME_PATTERN)));

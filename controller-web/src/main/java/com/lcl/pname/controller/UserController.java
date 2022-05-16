@@ -3,6 +3,7 @@ package com.lcl.pname.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lcl.pname.appcontext.ProjectAutoConfiguration;
 import com.lcl.pname.beanaddtion.PageVO;
+import com.lcl.pname.controllerconfig.security.utils.RedisCacheUtils;
 import com.lcl.pname.entity.User;
 import com.lcl.pname.responsestatus.R;
 import com.lcl.pname.responsestatus.ResultCode;
@@ -17,6 +18,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * <p>
@@ -40,10 +44,14 @@ import java.util.Map;
 @Tag(name = "user-controller",description = "这是针对user信息处理的API")
 @RestController //responsebody 和 controller 的结合体
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private RedisCacheUtils redisCacheUtils;
 
     @Operation(summary = "处理保存用户的接口",description = "用于保存用户",
             parameters = {
@@ -101,7 +109,7 @@ public class UserController {
      *
      * @return 用户对象
      */
-    @PostMapping("/login")
+    @PostMapping("/旧的login")
     @ResponseStatus(HttpStatus.OK)
     public R<User> user(@RequestBody Map<String, String> map, HttpServletRequest httpServletRequest,
                           HttpSession httpSession, @CookieValue(value = "JSESSIONID", required = false) String sessionId,
@@ -139,6 +147,13 @@ public class UserController {
         return R.ok("登录成功", user);
     }
 
+/*
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public void login(@RequestBody Map<String, String> map) {
+    }
+*/
+
     @GetMapping("/logout")
     public R<Object> logout(HttpSession httpSession) {
         //直接让当前会话失效
@@ -147,17 +162,28 @@ public class UserController {
         return R.ok().setMessage("退出成功");
     }
 
-    @RequestMapping("/captcha")
-    @ResponseStatus(HttpStatus.OK)
+//    @RequestMapping("/captcha")
+//    @ResponseStatus(HttpStatus.OK)
     public void captcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         //去出java11 的警告提醒
         System.setProperty("nashorn.args", "--no-deprecation-warning");
         //gif
-//        GifCaptcha captcha = new GifCaptcha(130,32);
+        //GifCaptcha captcha = new GifCaptcha(130,32);
         //算数类型
         ArithmeticCaptcha captcha = new ArithmeticCaptcha(130, 32);
-        captcha.setLen(2);//几位运算,默认是两位
-        System.out.println("SessionId" + httpServletRequest.getSession().getId());
+        //几位运算,默认是两位
+        captcha.setLen(2);
+        //获取结果值,存入redis
+        String textValue = captcha.text();
+        String valueKey = UUID.randomUUID().toString().replace("-","");
+        log.info("验证码的生成 key : {} => value : {}",valueKey,textValue);
+        /*将生成的 uuid 作为 key ,验证值 作为 value,放入 redis 指定 验证码 hash 集合中 */
+        redisCacheUtils.putValue(ProjectAutoConfiguration.captchaKey,valueKey,textValue);
+        /*已经把session关闭了,使用token*/
+        //httpServletResponse.setHeader("Cache-Control","no-store,no-cache");
+        /*设置请求头*/
+        httpServletResponse.setHeader(ProjectAutoConfiguration.CHECK_CODE_KEY,valueKey);
+        //System.out.println("SessionId" + httpServletRequest.getSession().getId());
         CaptchaUtil.out(captcha,httpServletRequest,httpServletResponse);
     }
 }

@@ -36,7 +36,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         String jwt = jwtUtils.generateToken(username);
         //将 jwt 放入response header 中 : Authorization
         response.setHeader(jwtUtils.getHeader(),jwt);
-        R<String> result = R.ok("登录成功过滤器执行");
+        R<String> result = R.ok("登录成功,过滤器执行");
 
         outputStream.write(JSONUtil.toJsonStr(result).getBytes(StandardCharsets.UTF_8));
 
