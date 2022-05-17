@@ -30,16 +30,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
         R<String> result = R.error(ResultCode.LOGIN_ERROR,exception.getMessage());
 
-        outputStream.write(JSONUtil.toJsonStr(result).getBytes(StandardCharsets.UTF_8));
-
-        UserController userController = new UserController();
-        try {
-            userController.captcha(request,response);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-//        outputStream.flush();
-//        outputStream.close();
+        outputStream.flush();
+        outputStream.close();
     }
 }

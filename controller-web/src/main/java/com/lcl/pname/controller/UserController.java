@@ -162,10 +162,13 @@ public class UserController {
         return R.ok().setMessage("退出成功");
     }
 
-//    @RequestMapping("/captcha")
-//    @ResponseStatus(HttpStatus.OK)
+    /**
+     * 生成验证码
+     */
+    @RequestMapping("/captcha")
+    @ResponseStatus(HttpStatus.OK)
     public void captcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        //去出java11 的警告提醒
+        //去除 java11 的警告提醒
         System.setProperty("nashorn.args", "--no-deprecation-warning");
         //gif
         //GifCaptcha captcha = new GifCaptcha(130,32);
@@ -175,15 +178,15 @@ public class UserController {
         captcha.setLen(2);
         //获取结果值,存入redis
         String textValue = captcha.text();
-        String valueKey = UUID.randomUUID().toString().replace("-","");
-        log.info("验证码的生成 key : {} => value : {}",valueKey,textValue);
+        String valueKey = UUID.randomUUID().toString().replace("-", "");
+        log.info("验证码的生成 key : {} => value : {}", valueKey, textValue);
         /*将生成的 uuid 作为 key ,验证值 作为 value,放入 redis 指定 验证码 hash 集合中 */
-        redisCacheUtils.putValue(ProjectAutoConfiguration.captchaKey,valueKey,textValue);
+        redisCacheUtils.putValue(ProjectAutoConfiguration.captchaKey, valueKey, textValue);
         /*已经把session关闭了,使用token*/
         //httpServletResponse.setHeader("Cache-Control","no-store,no-cache");
         /*设置请求头*/
-        httpServletResponse.setHeader(ProjectAutoConfiguration.CHECK_CODE_KEY,valueKey);
+        httpServletResponse.setHeader(ProjectAutoConfiguration.CHECK_CODE_KEY, valueKey);
         //System.out.println("SessionId" + httpServletRequest.getSession().getId());
-        CaptchaUtil.out(captcha,httpServletRequest,httpServletResponse);
+        CaptchaUtil.out(captcha, httpServletRequest, httpServletResponse);
     }
 }

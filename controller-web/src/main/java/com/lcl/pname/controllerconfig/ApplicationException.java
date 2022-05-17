@@ -3,7 +3,7 @@ package com.lcl.pname.controllerconfig;
 import com.lcl.pname.responsestatus.ResultCode;
 
 /**
- * 自定义总异常
+ * 自定义总异常,Exception 需要向外抛,运行时异常不需要,Exception多层外抛处理不符合规范.
  * */
 public class ApplicationException extends RuntimeException {
 

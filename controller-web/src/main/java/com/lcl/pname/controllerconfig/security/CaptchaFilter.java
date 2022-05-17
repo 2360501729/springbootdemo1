@@ -25,7 +25,7 @@ import java.io.IOException;
 public class CaptchaFilter  extends OncePerRequestFilter {
 
     @Autowired
-    LoginFailureHandler loginFailureHandler;
+    private LoginFailureHandler loginFailureHandler;
 
 //    @Autowired
 //    RedisUtil redisUtil;
@@ -38,7 +38,7 @@ public class CaptchaFilter  extends OncePerRequestFilter {
         log.info("开始验证验证码");
         String requestURI = request.getRequestURI();
         /*只有登录 uri 才会验证验证码*/
-        /*这个登录接口有三个地方需要统一: 这里 和 websecurity 中的登录页设置 和 放行白名单*/
+        /*这个登录接口有三个地方需要统一: 这里 和 WebSecurity 中的登录页设置 和 放行白名单*/
         if ("/user/login".equals(requestURI) && "POST".equals(request.getMethod())) {
             try {
                 /*校验验证码*/
@@ -56,8 +56,6 @@ public class CaptchaFilter  extends OncePerRequestFilter {
      * 校验验证码逻辑,
      * 1.判断 input 验证码和用户名是否有空,
      * 2.先获取生成验证码时在请求头中放的验证码的键,其次根据这个键从redis中获取验证码,再根据 input 中的验证码相对比
-     *
-     * @param request
      */
     private void validate(HttpServletRequest request) {
         /*方法一 : 这种获取验证码的key方式写死了,实际应用获取 key 的 方法2 */
