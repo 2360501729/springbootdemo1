@@ -60,7 +60,7 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
 //        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
-                /*给数据库密码加密*/
+                /*给input的密码根据数据库中密码前缀格式加密,让数据库中密码和上传的密码用同一种加密方式*/
                 passwordEncoder.encode(user.getPassword()),
                 //grantedAuthorities
                 /*根据 用户id 获取权限列表*/

@@ -19,7 +19,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -106,7 +105,6 @@ public class UserController {
 
     /**
      * 用于登录
-     *
      * @return 用户对象
      */
     @PostMapping("/旧的login")
@@ -176,6 +174,7 @@ public class UserController {
         ArithmeticCaptcha captcha = new ArithmeticCaptcha(130, 32);
         //几位运算,默认是两位
         captcha.setLen(2);
+        captcha.toBase64();
         //获取结果值,存入redis
         String textValue = captcha.text();
         String valueKey = UUID.randomUUID().toString().replace("-", "");

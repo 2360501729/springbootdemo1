@@ -116,7 +116,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 /*没有认证异常*/
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                /*没有权限*/
+                /*没有权限异常*/
                 .accessDeniedHandler(jwtAccessDeniedHandler)
 
                 //配置自定义过滤器,前置过滤器,类似 addFilterxx(a,b)的方法 会在 b 之前执行 a

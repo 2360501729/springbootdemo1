@@ -29,6 +29,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         ServletOutputStream outputStream = response.getOutputStream();
 
         R<String> result = R.error(ResultCode.LOGIN_ERROR,exception.getMessage());
+        outputStream.write(JSONUtil.toJsonStr(request).getBytes(StandardCharsets.UTF_8));
 
         outputStream.flush();
         outputStream.close();

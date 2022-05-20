@@ -57,8 +57,8 @@ project:
       userName: userName
       password: password
       captchaKey: captcha #自定义的 redis 存储验证码的 hash 表 key.
-      checkCodeKey: Check-Code-Key #获取请求域中验证码 的 input key
-      tokensKey: checkNum #获取请求头中生成的随机验证码的 redis key
+      checkCodeKey: Check-Code-Key #获取请求域中验证码 的 redis key
+      tokensKey: checkNum #获取请求头中生成的随机验证码的 input key
   jwt:
     header: Authorization
     expire: 604800 #保留七天
