@@ -49,11 +49,6 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     /**
      * 自定义处理对 请求头中的令牌解析(包括生成一个 Authorization) 和 用户认证
-     * @param request
-     * @param response
-     * @param chain
-     * @throws IOException
-     * @throws ServletException
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {

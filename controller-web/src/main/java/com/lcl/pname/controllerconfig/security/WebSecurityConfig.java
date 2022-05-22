@@ -2,7 +2,6 @@ package com.lcl.pname.controllerconfig.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -44,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        return new JwtAuthenticationFilter(authenticationManager());
+            return new JwtAuthenticationFilter(authenticationManager());
     }
 
     /**
@@ -74,8 +73,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 /*允许跨域*/
                 .cors()
 
-                /*关闭 session*/
                 .and()
+                /*关闭 csrf*/
                 .csrf()
                 .disable()
 
@@ -93,7 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutSuccessHandler(jwtLogoutSuccessHandler)
 
-                //设置不生成的 session 策略
+                //设置不生成 session 策略
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -111,8 +110,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 /*需要登录,表示需要认证*/
                 .anyRequest().authenticated()
 
-                //异常处理器
                 .and()
+                //配置异常处理器
                 .exceptionHandling()
                 /*没有认证异常*/
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
